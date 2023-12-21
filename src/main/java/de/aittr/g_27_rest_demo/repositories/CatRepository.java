@@ -1,51 +1,83 @@
 package de.aittr.g_27_rest_demo.repositories;
 
+import de.aittr.g_27_rest_demo.domain.Cat;
 import de.aittr.g_27_rest_demo.domain.SimpleCat;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public class CatRepository implements CrudRepository<SimpleCat> {
+public class CatRepository implements CrudRepository<Cat> {
 
     private File file = new File("cat.txt");
     private String delimiter = ";";
+    private int currentId;
 
-    @Override
-    public SimpleCat save(SimpleCat obj) {
-        try (FileWriter writer = new FileWriter(file, true)) {
-            List<SimpleCat> cats = getAll();
-
-            if (cats.size() == 0) {
-                obj.setId(1);
-            } else {
-                SimpleCat lastCat = cats.get(cats.size() - 1);
-                int idLastCat = lastCat.getId();
-                obj.setId(idLastCat + 1);
-            }
-
-            String result =
-                    obj.getId() + delimiter + obj.getAge() + delimiter + obj.getColor() + delimiter + obj.getWeight();
-
-            writer.write(result + "\n");
-
+    public CatRepository() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            List<String> lines = reader.lines().toList();
+            String lastLine = lines.get(lines.size() - 1);
+            String[] linesArray = lastLine.split(delimiter);
+            currentId = Integer.parseInt(linesArray[0]);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        return obj;
     }
 
     @Override
-    public SimpleCat getById(int id) {
-        return null;
+    public Cat save(Cat obj) {
+        try (FileWriter writer = new FileWriter(file, true)) {
+            obj.setId(++currentId);
+            StringBuilder builder = new StringBuilder();
+            builder.append(obj.getId())
+                    .append(delimiter)
+                    .append(obj.getAge())
+                    .append(delimiter)
+                    .append(obj.getColor())
+                    .append(delimiter)
+                    .append(obj.getWeight())
+                    .append("\n");
+            writer.write(builder.toString());
+            return obj;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+//        try (FileWriter writer = new FileWriter(file, true)) {
+//            List<SimpleCat> cats = getAll();
+//
+//            if (cats.size() == 0) {
+//                obj.setId(1);
+//            } else {
+//                SimpleCat lastCat = cats.get(cats.size() - 1);
+//                int idLastCat = lastCat.getId();
+//                obj.setId(idLastCat + 1);
+//            }
+//
+//            String result = obj.getId() + delimiter + obj.getAge() + delimiter + obj.getColor() + delimiter + obj.getWeight();
+//
+//            writer.write(result + "\n");
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//
     }
 
     @Override
-    public List<SimpleCat> getAll() {
+    public Cat getById(int id) {
+        return getAll().stream()
+                .filter(x -> x.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public List<Cat> getAll() {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-           return reader.lines() // stream "1;3;black;4.56"
+           return new ArrayList<>(reader.lines() // stream "1;3;black;4.56"
                    .map(line -> line.split(delimiter)) // "1;3;black;4.56" -> ["1", "3", "black", "4.56"]
                    .map(array -> new SimpleCat( // arrays -> cats
                            Integer.parseInt(array[0]),
@@ -53,22 +85,18 @@ public class CatRepository implements CrudRepository<SimpleCat> {
                            array[2],
                            Double.parseDouble(array[3])
                    ))
-                   .toList();
+                   .toList());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void main(String[] args) {
-        List<SimpleCat> cats = new CatRepository().getAll();
-        System.out.println();
-
-        SimpleCat cat1 = new SimpleCat(4, "yellow", 4.34);
-        CatRepository repository = new CatRepository();
-        repository.save(cat1);
-
-        SimpleCat cat2 = new SimpleCat(10, 7, "brown", 5.00);
-        repository.save(cat2);
+        Cat cat = new SimpleCat(777, 9, "рыжий", 9.87);
+        new CatRepository().save(cat);
+        System.out.println(UUID.randomUUID());
+        System.out.println(UUID.randomUUID());
+        System.out.println(UUID.randomUUID());
     }
 
     @Override

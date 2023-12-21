@@ -2,23 +2,17 @@ package de.aittr.g_27_rest_demo.domain;
 
 import java.util.Objects;
 
-public class SimpleCat implements Cat {
+public class SimpleDog implements Dog {
+
     private int id;
     private int age;
     private String color;
     private double weight;
 
-    public SimpleCat() {
-
+    public SimpleDog() {
     }
 
-    public SimpleCat(int age, String color, double weight) {
-        this.age = age;
-        this.color = color;
-        this.weight = weight;
-    }
-
-    public SimpleCat(int id, int age, String color, double weight) {
+    public SimpleDog(int id, int age, String color, double weight) {
         this.id = id;
         this.age = age;
         this.color = color;
@@ -54,9 +48,8 @@ public class SimpleCat implements Cat {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SimpleCat simpleCat = (SimpleCat) o;
-        return id == simpleCat.id && age == simpleCat.age &&
-                Double.compare(simpleCat.weight, weight) == 0 && Objects.equals(color, simpleCat.color);
+        SimpleDog simpleDog = (SimpleDog) o;
+        return id == simpleDog.id && age == simpleDog.age && Double.compare(simpleDog.weight, weight) == 0 && Objects.equals(color, simpleDog.color);
     }
 
     @Override
@@ -66,7 +59,7 @@ public class SimpleCat implements Cat {
 
     @Override
     public String toString() {
-        return "SimpleCat{" +
+        return "SimpleDog{" +
                 "id=" + id +
                 ", age=" + age +
                 ", color='" + color + '\'' +
