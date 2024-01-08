@@ -16,7 +16,7 @@ public class DogService implements AppService<Dog> {
 
     @Override
     public Dog save(Dog obj) {
-        return null;
+        return repository.save(obj);
     }
 
     @Override

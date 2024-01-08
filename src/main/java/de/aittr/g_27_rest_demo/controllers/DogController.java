@@ -1,6 +1,7 @@
 package de.aittr.g_27_rest_demo.controllers;
 
 import de.aittr.g_27_rest_demo.domain.Dog;
+import de.aittr.g_27_rest_demo.domain.SimpleDog;
 import de.aittr.g_27_rest_demo.services.DogService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,10 @@ public class DogController {
     @DeleteMapping ("/{id}")
     public void deleteById(@PathVariable int id) {
         service.deleteById(id);
+    }
+
+    @PostMapping("/save")
+    public Dog save(@RequestBody SimpleDog dog) {
+        return service.save(dog);
     }
 }

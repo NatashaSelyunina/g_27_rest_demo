@@ -1,5 +1,6 @@
 package de.aittr.g_27_rest_demo.repositories;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.aittr.g_27_rest_demo.domain.Dog;
 import de.aittr.g_27_rest_demo.domain.SimpleDog;
 import org.springframework.stereotype.Repository;
@@ -36,7 +37,21 @@ public class DogRepository implements CrudRepository<Dog> {
 
     @Override
     public Dog save(Dog obj) {
-        return null;
+        try (Connection connection = getConnection()){
+            Statement statement = connection.createStatement();
+            int age = obj.getAge();
+            String color = obj.getColor();
+            double weight = obj.getWeight();
+
+            String query = String.format(Locale.US, "INSERT INTO dog " +
+                    "(age, color, weight) VALUES (%d, %s, %.2f);", age, color, weight);
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            return obj;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -94,9 +109,13 @@ public class DogRepository implements CrudRepository<Dog> {
         }
     }
 
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
+//        int age = 4;
+//        String color = "brown";
 //        double weight = 12.34;
+//        Dog dog = new SimpleDog(age, color, weight);
+//        new DogRepository().save(dog);
 //        String query = String.format(Locale.US, "%.2f", weight);
 //        System.out.println(query);
-//    }
+    }
 }

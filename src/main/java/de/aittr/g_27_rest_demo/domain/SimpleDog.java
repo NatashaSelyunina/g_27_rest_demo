@@ -12,6 +12,12 @@ public class SimpleDog implements Dog {
     public SimpleDog() {
     }
 
+    public SimpleDog(int age, String color, double weight) {
+        this.age = age;
+        this.color = color;
+        this.weight = weight;
+    }
+
     public SimpleDog(int id, int age, String color, double weight) {
         this.id = id;
         this.age = age;
