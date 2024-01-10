@@ -94,9 +94,9 @@ public class CatRepository implements CrudRepository<Cat> {
     public static void main(String[] args) {
         Cat cat = new SimpleCat(777, 9, "рыжий", 9.87);
         new CatRepository().save(cat);
-        System.out.println(UUID.randomUUID());
-        System.out.println(UUID.randomUUID());
-        System.out.println(UUID.randomUUID());
+//        System.out.println(UUID.randomUUID());
+//        System.out.println(UUID.randomUUID());
+//        System.out.println(UUID.randomUUID());
     }
 
     @Override

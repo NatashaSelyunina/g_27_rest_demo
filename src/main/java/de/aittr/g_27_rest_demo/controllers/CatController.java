@@ -28,7 +28,7 @@ public class CatController {
         return service.save(cat);
     }
 
-    // http://12.34.56.67:8080/cats/get_by_id/5
+    // http://12.34.56.67:8080/cats/get_by_id/5/black
 //    @GetMapping("/get_by_id/{id}")
 //    public Cat getById(@PathVariable int id) {
 //        return service.getById(id);
