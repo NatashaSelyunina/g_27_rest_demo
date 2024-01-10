@@ -1,6 +1,5 @@
 package de.aittr.g_27_rest_demo.repositories;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.aittr.g_27_rest_demo.domain.Dog;
 import de.aittr.g_27_rest_demo.domain.SimpleDog;
 import org.springframework.stereotype.Repository;
