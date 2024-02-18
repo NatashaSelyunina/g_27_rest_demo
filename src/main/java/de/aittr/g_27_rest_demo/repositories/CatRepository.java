@@ -100,6 +100,24 @@ public class CatRepository implements CrudRepository<Cat> {
 
     @Override
     public void deleteById(int id) {
+        List<Cat> cats = new ArrayList<>(getAll());
+        cats.removeIf(x -> x.getId() == id);
 
+        try (FileWriter writer = new FileWriter(file)) {
+            for (Cat cat : cats) {
+                StringBuilder builder = new StringBuilder();
+                builder.append(cat.getId())
+                        .append(delimiter)
+                        .append(cat.getAge())
+                        .append(delimiter)
+                        .append(cat.getColor())
+                        .append(delimiter)
+                        .append(cat.getWeight())
+                        .append("\n");
+                writer.write(builder.toString());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

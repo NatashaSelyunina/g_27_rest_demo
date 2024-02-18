@@ -37,7 +37,11 @@ public class CatController {
     // http://12.34.56.67:8080/cats/get_by_id?id=5&color=black
     @GetMapping("/get_by_id")
     public Cat getById(@RequestParam int id) {
-        System.out.println("Hello");
         return service.getById(id);
+    }
+
+    @DeleteMapping("/get_by_id/{id}")
+    public void deleteById(@PathVariable int id) {
+        service.deleteById(id);
     }
 }

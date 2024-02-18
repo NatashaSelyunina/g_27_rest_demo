@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class CatService implements AppService<Cat> {
     private CatRepository repository;
@@ -31,6 +32,6 @@ public class CatService implements AppService<Cat> {
 
     @Override
     public void deleteById(int id) {
-
+        repository.deleteById(id);
     }
 }
