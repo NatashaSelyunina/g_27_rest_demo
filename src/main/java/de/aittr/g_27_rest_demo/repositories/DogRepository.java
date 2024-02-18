@@ -37,16 +37,17 @@ public class DogRepository implements CrudRepository<Dog> {
 
     @Override
     public Dog save(Dog obj) {
-        try (Connection connection = getConnection()){
-            Statement statement = connection.createStatement();
-            int age = obj.getAge();
-            String color = obj.getColor();
-            double weight = obj.getWeight();
+        try (Connection connection = getConnection()) {
+            String query = String.format(Locale.US, "INSERT INTO `dog` " +
+                    "(`age`, `color`, `weight`) VALUES ('%d', '%s', '%.2f');", obj.getAge(), obj.getColor(), obj.getWeight());
+            connection.createStatement().execute(query);
 
-            String query = String.format(Locale.US, "INSERT INTO dog " +
-                    "(age, color, weight) VALUES (%d, %s, %.2f);", age, color, weight);
+            query = "select dog_id from dog order by dog_id desc limit 1;";
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
 
-            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.next();
+            int id = resultSet.getInt(ID);
+            obj.setId(id);
 
             return obj;
         } catch (Exception e) {
