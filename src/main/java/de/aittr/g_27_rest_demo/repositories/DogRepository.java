@@ -16,7 +16,7 @@ public class DogRepository implements CrudRepository<Dog> {
     private final String DB_ADDRESS = "jdbc:mysql://localhost:3307/";
     private final String DB_NAME = "animals";
     private final String DB_USERNAME = "root";
-    private final String DB_PASSWORD = "NataSQL-2023-47!";
+    private final String DB_PASSWORD = "NataSQL-2024-53!";
     private final String ID = "dog_id";
     private final String AGE = "age";
     private final String COLOR = "color";
@@ -24,8 +24,9 @@ public class DogRepository implements CrudRepository<Dog> {
 
     private Connection getConnection() {
         try {
+            // чтобы загрузить драйвер
             Class.forName(DB_DRIVER_PATH);
-            // jdbc:mysql://localhost:3307/animals?user=root&password=NataSQL-2023-47!
+            // jdbc:mysql://localhost:3307/animals?user=root&password=NataSQL-2024-53!
             String dbUrl = String.format("%s%s?user=%s&password=%s",
                     DB_ADDRESS, DB_NAME, DB_USERNAME, DB_PASSWORD);
             return DriverManager.getConnection(dbUrl);
